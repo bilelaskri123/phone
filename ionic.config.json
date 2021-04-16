@@ -1,0 +1,7 @@
+{
+  "name": "phones",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
