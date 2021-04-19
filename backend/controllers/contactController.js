@@ -15,21 +15,15 @@ exports.addContact = (req, res, next) => {
     });
 }
 
-exports.getMyContacts = (req, res, next) => {
-    const filterInput ='%'+ req.query.filterInput +'%';
-    console.log(filterInput);
-    Contact.findAll({where: {[Op.or]: [{firstName: {[Op.like]: filterInput}}, {lastName: {[Op.like]: filterInput}}, {contact: {[Op.like]: filterInput}}   ]}}).then(contacts => {
-        res.status(200).json({contacts: contacts});
-    }).catch(error => {
-        res.status(500).json({message: 'can not find contacts'})
-    })
-}
-
 exports.getContacts = (req, res, next) => {
+    console.log(req.query);
     const filterInput ='%'+ req.query.filterInput +'%';
+    const limit = +req.query.limit * +req.query.page;
+    const offset = (+req.query.page - 1) * +req.query.limit;
     console.log(filterInput);
-    Contact.findAll({where: {[Op.or]: [{firstName: {[Op.like]: filterInput}}, {lastName: {[Op.like]: filterInput}}, {contact: {[Op.like]: filterInput}}   ]}}).then(contacts => {
-        res.status(200).json({contacts: contacts});
+    Contact.findAndCountAll
+    Contact.findAndCountAll({where: {[Op.or]: [{firstName: {[Op.like]: filterInput}}, {lastName: {[Op.like]: filterInput}}, {contact: {[Op.like]: filterInput}}   ]}, limit: limit}).then(contactData => {
+        res.status(200).json({contacts: contactData.rows, count: contactData.count});
     }).catch(error => {
         res.status(500).json({message: 'can not find contacts'})
     })

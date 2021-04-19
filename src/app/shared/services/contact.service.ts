@@ -9,8 +9,8 @@ export class ContactService {
   endpoint = environment.endpoint;
   constructor(private http: HttpClient) { }
 
-  getContacts(filterInput: string) {
-    const queryParam = this.endpoint + `/search?filterInput=${filterInput}`;
-    return this.http.get<{contacts: Contact[]}>(queryParam);
+  getContacts(params: string) {
+    const queryParam = this.endpoint + `` + params;
+    return this.http.get<{contacts: Contact[], count: number}>(queryParam);
   }
 }

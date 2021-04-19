@@ -2,7 +2,7 @@
   <ion-searchbar placeholder="recherche par numéro, nom ou prénom" (ionChange)="filter($event.target.value)"></ion-searchbar>
 
   <ion-button *ngIf="filterInput" (click)="getContacts()" expand="block" size="medium">Search</ion-button>
-  <ion-list>
+  <ion-list *ngIf="contacts.length > 0">
 
     <ion-item *ngFor="let contact of contacts">
       <ion-icon slot="start" name="call-outline"></ion-icon>
@@ -15,4 +15,11 @@
       </ion-buttons>
     </ion-item>
   </ion-list>
+
+  <p *ngIf="contacts.length <= 0" style="text-align: center;"> aucune resultat trouvé</p>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
